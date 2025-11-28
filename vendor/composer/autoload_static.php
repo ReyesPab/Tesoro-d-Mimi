@@ -14,6 +14,10 @@ class ComposerStaticInit754740f5ae4d3623c6a3ea1e31a9cf43
     );
 
     public static $prefixLengthsPsr4 = array (
+        'm' => 
+        array (
+            'modulo_ventas\\' => 14,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -45,6 +49,10 @@ class ComposerStaticInit754740f5ae4d3623c6a3ea1e31a9cf43
     );
 
     public static $prefixDirsPsr4 = array (
+        'modulo_ventas\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
@@ -89,18 +97,37 @@ class ComposerStaticInit754740f5ae4d3623c6a3ea1e31a9cf43
 
     public static $classMap = array (
         'App\\config\\EmailService' => __DIR__ . '/../..' . '/src/config/EmailService.php',
+        'App\\config\\PermisosHelper' => __DIR__ . '/../..' . '/src/config/PermisosHelper.php',
         'App\\config\\Security' => __DIR__ . '/../..' . '/src/config/Security.php',
+        'App\\config\\SessionHelper' => __DIR__ . '/../..' . '/src/config/SessionHelper.php',
         'App\\config\\TwoFactorAuth' => __DIR__ . '/../..' . '/src/config/TwoFactorAuth.php',
         'App\\config\\errorlogs' => __DIR__ . '/../..' . '/src/config/errorlogs.php',
         'App\\config\\responseHTTP' => __DIR__ . '/../..' . '/src/config/responseHTTP.php',
         'App\\config\\validations' => __DIR__ . '/../..' . '/src/config/validations.php',
         'App\\controllers\\authController' => __DIR__ . '/../..' . '/src/controllers/authController.php',
+        'App\\controllers\\backupController' => __DIR__ . '/../..' . '/src/controllers/backupController.php',
+        'App\\controllers\\bitacoraController' => __DIR__ . '/../..' . '/src/controllers/bitacoraController.php',
         'App\\controllers\\comprasController' => __DIR__ . '/../..' . '/src/controllers/comprasController.php',
+        'App\\controllers\\inventarioController' => __DIR__ . '/../..' . '/src/controllers/inventarioController.php',
+        'App\\controllers\\modulo_ventas\\clientesController' => __DIR__ . '/../..' . '/src/controllers/modulo_ventas/clientesController.php',
+        'App\\controllers\\modulo_ventas\\ventasController' => __DIR__ . '/../..' . '/src/controllers/modulo_ventas/ventasController.php',
+        'App\\controllers\\permisosController' => __DIR__ . '/../..' . '/src/controllers/permisosController.php',
+        'App\\controllers\\produccionController' => __DIR__ . '/../..' . '/src/controllers/produccionController.php',
+        'App\\controllers\\roleController' => __DIR__ . '/../..' . '/src/controllers/roleController.php',
         'App\\controllers\\userController' => __DIR__ . '/../..' . '/src/controllers/userController.php',
+        'App\\controllers\\ventasController' => __DIR__ . '/../..' . '/src/controllers/ventasController.php',
         'App\\db\\connectionDB' => __DIR__ . '/../..' . '/src/db/connectionDB.php',
         'App\\db\\sql' => __DIR__ . '/../..' . '/src/db/sql.php',
         'App\\models\\authModel' => __DIR__ . '/../..' . '/src/models/authModel.php',
+        'App\\models\\backupModel' => __DIR__ . '/../..' . '/src/models/backupModel.php',
+        'App\\models\\bitacoraModel' => __DIR__ . '/../..' . '/src/models/bitacoraModel.php',
         'App\\models\\comprasModel' => __DIR__ . '/../..' . '/src/models/comprasModel.php',
+        'App\\models\\inventarioModel' => __DIR__ . '/../..' . '/src/models/inventarioModel.php',
+        'App\\models\\modulo_ventas\\clienteModel' => __DIR__ . '/../..' . '/src/models/modulo_ventas/clienteModel.php',
+        'App\\models\\modulo_ventas\\ventasModel' => __DIR__ . '/../..' . '/src/models/modulo_ventas/ventasModel.php',
+        'App\\models\\permisosModel' => __DIR__ . '/../..' . '/src/models/permisosModel.php',
+        'App\\models\\produccionModel' => __DIR__ . '/../..' . '/src/models/produccionModel.php',
+        'App\\models\\roleModel' => __DIR__ . '/../..' . '/src/models/roleModel.php',
         'App\\models\\userModel' => __DIR__ . '/../..' . '/src/models/userModel.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
