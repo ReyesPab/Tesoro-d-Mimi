@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /sistema/
+
+# Redirige solo la raíz al public
+RewriteRule ^$ public/ [L]

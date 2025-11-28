@@ -1,0 +1,65 @@
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --text-color: #f8f9fa;
+  --accent: #6c63ff;
+  --accent-light: #9a94ff;
+  --bg-blur: 15px;
+}
+
+body {
+  background: linear-gradient(135deg, #2b2d42, #3a0ca3, #7209b7);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  backdrop-filter: blur(var(--bg-blur));
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+.sidebar {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--bg-blur));
+  border-right: 1px solid var(--glass-border);
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 2rem 1rem;
+}
+
+.header-glass {
+  background: var(--glass-bg);
+  border-bottom: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--bg-blur));
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 250px;
+  right: 0;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main-content {
+  margin-left: 250px;
+  margin-top: 90px;
+  padding: 2rem;
+}

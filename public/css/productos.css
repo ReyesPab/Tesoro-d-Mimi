@@ -1,0 +1,52 @@
+.product-card {
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid #dee2e6;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.product-img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+}
+
+.stock-badge {
+    background-color: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+}
+
+.input-cantidad {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 4px 8px;
+    text-align: center;
+}
+
+.input-cantidad:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.subtotal {
+    font-weight: 600;
+    color: #0d6efd;
+}
+
+.alert {
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.alert-secondary {
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+}

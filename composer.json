@@ -1,0 +1,20 @@
+{
+    "require": {
+        "ext-json": "*",
+        "vlucas/phpdotenv": "^5.6",
+        "firebase/php-jwt": "^5.4",
+        "paragonie/sodium_compat": "^2.4",
+        "phpmailer/phpmailer": "^7.0",
+        "tecnickcom/tcpdf": "^6.10"
+    },
+    "autoload": { 
+        "psr-4": {
+            "App\\": "src",
+            "modulo_ventas\\": "src"
+	        }
+	    },
+	    "config": {
+	        "optimize-autoloader": true
+	    }
+
+    }

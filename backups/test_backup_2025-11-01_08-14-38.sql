@@ -1,0 +1,522 @@
+-- Backup creado el: 2025-11-01 08:14:38
+-- Base de datos: rosquilleria
+
+-- Tabla: tbl_cardex_materia_prima
+DROP TABLE IF EXISTS `tbl_cardex_materia_prima`;
+CREATE TABLE `tbl_cardex_materia_prima` (
+  `ID_CARDEX_MP` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_MATERIA_PRIMA` int(11) NOT NULL,
+  `CANTIDAD` decimal(10,2) NOT NULL,
+  `TIPO_MOVIMIENTO` varchar(20) NOT NULL,
+  `ID_USUARIO` int(11) NOT NULL,
+  `DESCRIPCION` varchar(255) DEFAULT NULL,
+  `FECHA_MOVIMIENTO` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_CARDEX_MP`),
+  KEY `ID_MATERIA_PRIMA` (`ID_MATERIA_PRIMA`),
+  KEY `ID_USUARIO` (`ID_USUARIO`),
+  CONSTRAINT `tbl_cardex_materia_prima_ibfk_1` FOREIGN KEY (`ID_MATERIA_PRIMA`) REFERENCES `tbl_materia_prima` (`ID_MATERIA_PRIMA`),
+  CONSTRAINT `tbl_cardex_materia_prima_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_cardex_producto
+DROP TABLE IF EXISTS `tbl_cardex_producto`;
+CREATE TABLE `tbl_cardex_producto` (
+  `ID_CARDEX_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_PRODUCTO` int(11) NOT NULL,
+  `CANTIDAD` decimal(10,2) NOT NULL,
+  `TIPO_MOVIMIENTO` varchar(20) NOT NULL,
+  `ID_USUARIO` int(11) NOT NULL,
+  `DESCRIPCION` varchar(255) DEFAULT NULL,
+  `FECHA_MOVIMIENTO` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_CARDEX_PRODUCTO`),
+  KEY `ID_PRODUCTO` (`ID_PRODUCTO`),
+  KEY `ID_USUARIO` (`ID_USUARIO`),
+  CONSTRAINT `tbl_cardex_producto_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `tbl_producto` (`ID_PRODUCTO`),
+  CONSTRAINT `tbl_cardex_producto_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_cliente
+DROP TABLE IF EXISTS `tbl_cliente`;
+CREATE TABLE `tbl_cliente` (
+  `ID_CLIENTE` int(11) NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(100) NOT NULL,
+  `APELLIDO` varchar(100) NOT NULL,
+  `TELEFONO` varchar(20) DEFAULT NULL,
+  `DNI` varchar(20) DEFAULT NULL,
+  `CORREO` varchar(50) DEFAULT NULL,
+  `DIRECCION` varchar(255) DEFAULT NULL,
+  `ESTADO` varchar(20) DEFAULT 'ACTIVO',
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_CLIENTE`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_compra
+DROP TABLE IF EXISTS `tbl_compra`;
+CREATE TABLE `tbl_compra` (
+  `ID_COMPRA` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_PROVEEDOR` int(11) NOT NULL,
+  `ID_USUARIO` int(11) NOT NULL,
+  `TOTAL_COMPRA` decimal(10,2) NOT NULL,
+  `FECHA_COMPRA` datetime DEFAULT current_timestamp(),
+  `ESTADO_COMPRA` varchar(20) DEFAULT 'ACTIVA',
+  `OBSERVACIONES` varchar(255) DEFAULT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_COMPRA`),
+  KEY `ID_PROVEEDOR` (`ID_PROVEEDOR`),
+  KEY `ID_USUARIO` (`ID_USUARIO`),
+  CONSTRAINT `tbl_compra_ibfk_1` FOREIGN KEY (`ID_PROVEEDOR`) REFERENCES `tbl_proveedor` (`ID_PROVEEDOR`),
+  CONSTRAINT `tbl_compra_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_detalle_compra
+DROP TABLE IF EXISTS `tbl_detalle_compra`;
+CREATE TABLE `tbl_detalle_compra` (
+  `ID_DETALLE_COMPRA` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_COMPRA` int(11) NOT NULL,
+  `ID_MATERIA_PRIMA` int(11) NOT NULL,
+  `CANTIDAD` decimal(10,2) NOT NULL,
+  `PRECIO_UNITARIO` decimal(10,2) NOT NULL,
+  `SUBTOTAL` decimal(10,2) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_DETALLE_COMPRA`),
+  KEY `ID_COMPRA` (`ID_COMPRA`),
+  KEY `ID_MATERIA_PRIMA` (`ID_MATERIA_PRIMA`),
+  CONSTRAINT `tbl_detalle_compra_ibfk_1` FOREIGN KEY (`ID_COMPRA`) REFERENCES `tbl_compra` (`ID_COMPRA`),
+  CONSTRAINT `tbl_detalle_compra_ibfk_2` FOREIGN KEY (`ID_MATERIA_PRIMA`) REFERENCES `tbl_materia_prima` (`ID_MATERIA_PRIMA`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_detalle_factura
+DROP TABLE IF EXISTS `tbl_detalle_factura`;
+CREATE TABLE `tbl_detalle_factura` (
+  `ID_DETALLE_FACTURA` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_FACTURA` int(11) NOT NULL,
+  `ID_PRODUCTO` int(11) NOT NULL,
+  `CANTIDAD` decimal(10,2) NOT NULL,
+  `PRECIO_VENTA` decimal(10,2) NOT NULL,
+  `SUBTOTAL` decimal(10,2) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_DETALLE_FACTURA`),
+  KEY `ID_FACTURA` (`ID_FACTURA`),
+  KEY `ID_PRODUCTO` (`ID_PRODUCTO`),
+  CONSTRAINT `tbl_detalle_factura_ibfk_1` FOREIGN KEY (`ID_FACTURA`) REFERENCES `tbl_factura` (`ID_FACTURA`),
+  CONSTRAINT `tbl_detalle_factura_ibfk_2` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `tbl_producto` (`ID_PRODUCTO`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_detalle_produccion
+DROP TABLE IF EXISTS `tbl_detalle_produccion`;
+CREATE TABLE `tbl_detalle_produccion` (
+  `ID_DETALLE_PRODUCCION` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_PRODUCCION` int(11) NOT NULL,
+  `ID_PRODUCTO` int(11) NOT NULL,
+  `CANTIDAD` decimal(10,2) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_DETALLE_PRODUCCION`),
+  KEY `ID_PRODUCCION` (`ID_PRODUCCION`),
+  KEY `ID_PRODUCTO` (`ID_PRODUCTO`),
+  CONSTRAINT `tbl_detalle_produccion_ibfk_1` FOREIGN KEY (`ID_PRODUCCION`) REFERENCES `tbl_produccion` (`ID_PRODUCCION`),
+  CONSTRAINT `tbl_detalle_produccion_ibfk_2` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `tbl_producto` (`ID_PRODUCTO`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_estado_produccion
+DROP TABLE IF EXISTS `tbl_estado_produccion`;
+CREATE TABLE `tbl_estado_produccion` (
+  `ID_ESTADO_PRODUCCION` int(11) NOT NULL AUTO_INCREMENT,
+  `ESTADO` varchar(30) NOT NULL,
+  `DESCRIPCION` varchar(100) DEFAULT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_ESTADO_PRODUCCION`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_factura
+DROP TABLE IF EXISTS `tbl_factura`;
+CREATE TABLE `tbl_factura` (
+  `ID_FACTURA` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_USUARIO` int(11) NOT NULL,
+  `ID_CLIENTE` int(11) NOT NULL,
+  `ID_METODO_PAGO` int(11) NOT NULL,
+  `TOTAL_VENTA` decimal(10,2) NOT NULL,
+  `FECHA_VENTA` datetime DEFAULT current_timestamp(),
+  `ESTADO_FACTURA` varchar(20) DEFAULT 'ACTIVA',
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_FACTURA`),
+  KEY `ID_USUARIO` (`ID_USUARIO`),
+  KEY `ID_CLIENTE` (`ID_CLIENTE`),
+  KEY `ID_METODO_PAGO` (`ID_METODO_PAGO`),
+  CONSTRAINT `tbl_factura_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`),
+  CONSTRAINT `tbl_factura_ibfk_2` FOREIGN KEY (`ID_CLIENTE`) REFERENCES `tbl_cliente` (`ID_CLIENTE`),
+  CONSTRAINT `tbl_factura_ibfk_3` FOREIGN KEY (`ID_METODO_PAGO`) REFERENCES `tbl_metodo_pago` (`ID_METODO_PAGO`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_inventario_materia_prima
+DROP TABLE IF EXISTS `tbl_inventario_materia_prima`;
+CREATE TABLE `tbl_inventario_materia_prima` (
+  `ID_INVENTARIO_MP` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_MATERIA_PRIMA` int(11) NOT NULL,
+  `CANTIDAD` decimal(10,2) DEFAULT 0.00,
+  `FECHA_ACTUALIZACION` datetime DEFAULT current_timestamp(),
+  `ACTUALIZADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_INVENTARIO_MP`),
+  KEY `ID_MATERIA_PRIMA` (`ID_MATERIA_PRIMA`),
+  CONSTRAINT `tbl_inventario_materia_prima_ibfk_1` FOREIGN KEY (`ID_MATERIA_PRIMA`) REFERENCES `tbl_materia_prima` (`ID_MATERIA_PRIMA`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_inventario_producto
+DROP TABLE IF EXISTS `tbl_inventario_producto`;
+CREATE TABLE `tbl_inventario_producto` (
+  `ID_INVENTARIO_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_PRODUCTO` int(11) NOT NULL,
+  `CANTIDAD` decimal(10,2) DEFAULT 0.00,
+  `FECHA_ACTUALIZACION` datetime DEFAULT current_timestamp(),
+  `ACTUALIZADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_INVENTARIO_PRODUCTO`),
+  KEY `ID_PRODUCTO` (`ID_PRODUCTO`),
+  CONSTRAINT `tbl_inventario_producto_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `tbl_producto` (`ID_PRODUCTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_materia_prima
+DROP TABLE IF EXISTS `tbl_materia_prima`;
+CREATE TABLE `tbl_materia_prima` (
+  `ID_MATERIA_PRIMA` int(11) NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(100) NOT NULL,
+  `DESCRIPCION` varchar(255) DEFAULT NULL,
+  `ID_UNIDAD_MEDIDA` int(11) NOT NULL,
+  `ID_PROVEEDOR` int(11) DEFAULT NULL,
+  `MINIMO` decimal(10,2) DEFAULT 0.00,
+  `MAXIMO` decimal(10,2) DEFAULT 0.00,
+  `PRECIO_PROMEDIO` decimal(10,2) DEFAULT 0.00,
+  `ESTADO` varchar(20) DEFAULT 'ACTIVO',
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_MATERIA_PRIMA`),
+  KEY `ID_UNIDAD_MEDIDA` (`ID_UNIDAD_MEDIDA`),
+  KEY `ID_PROVEEDOR` (`ID_PROVEEDOR`),
+  CONSTRAINT `tbl_materia_prima_ibfk_1` FOREIGN KEY (`ID_UNIDAD_MEDIDA`) REFERENCES `tbl_unidad_medida` (`ID_UNIDAD_MEDIDA`),
+  CONSTRAINT `tbl_materia_prima_ibfk_2` FOREIGN KEY (`ID_PROVEEDOR`) REFERENCES `tbl_proveedor` (`ID_PROVEEDOR`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_metodo_pago
+DROP TABLE IF EXISTS `tbl_metodo_pago`;
+CREATE TABLE `tbl_metodo_pago` (
+  `ID_METODO_PAGO` int(11) NOT NULL AUTO_INCREMENT,
+  `METODO_PAGO` varchar(30) NOT NULL,
+  `DESCRIPCION` varchar(100) DEFAULT NULL,
+  `ESTADO` varchar(20) DEFAULT 'ACTIVO',
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_METODO_PAGO`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_backups
+DROP TABLE IF EXISTS `tbl_ms_backups`;
+CREATE TABLE `tbl_ms_backups` (
+  `ID_BACKUP` int(11) NOT NULL AUTO_INCREMENT,
+  `NOMBRE_ARCHIVO` varchar(255) NOT NULL,
+  `TIPO_RESPALDO` enum('AUTOMATICO','MANUAL') NOT NULL DEFAULT 'MANUAL',
+  `RUTA_ARCHIVO` varchar(500) NOT NULL,
+  `FECHA_BACKUP` datetime DEFAULT current_timestamp(),
+  `PROGRAMADO_CADA_DIAS` int(11) DEFAULT NULL COMMENT 'Cada cuántos días se ejecuta (si es automático)',
+  `HORA_PROGRAMADA` time DEFAULT NULL,
+  `DIA_SEMANA` enum('LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO') DEFAULT NULL,
+  `ESTADO` enum('PENDIENTE','EJECUTADO','ERROR') DEFAULT 'EJECUTADO',
+  `DETALLE` text DEFAULT NULL,
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_BACKUP`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_backups_auto
+DROP TABLE IF EXISTS `tbl_ms_backups_auto`;
+CREATE TABLE `tbl_ms_backups_auto` (
+  `ID_BACKUP_AUTO` int(11) NOT NULL AUTO_INCREMENT,
+  `NOMBRE_ARCHIVO` varchar(255) NOT NULL,
+  `RUTA_ARCHIVO` varchar(500) NOT NULL,
+  `FRECUENCIA` enum('DIARIO','SEMANAL','MENSUAL') NOT NULL,
+  `HORA_EJECUCION` time NOT NULL,
+  `DIAS_SEMANA` varchar(50) DEFAULT NULL,
+  `ACTIVO` tinyint(4) DEFAULT 1,
+  `CREADO_POR` varchar(100) DEFAULT 'SISTEMA',
+  `CREADO_EN` timestamp NOT NULL DEFAULT current_timestamp(),
+  `ACTUALIZADO_EN` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID_BACKUP_AUTO`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_bitacora
+DROP TABLE IF EXISTS `tbl_ms_bitacora`;
+CREATE TABLE `tbl_ms_bitacora` (
+  `ID_BITACORA` int(11) NOT NULL AUTO_INCREMENT,
+  `FECHA` datetime NOT NULL DEFAULT current_timestamp(),
+  `ID_USUARIO` int(11) NOT NULL,
+  `ID_OBJETO` int(11) DEFAULT NULL,
+  `ACCION` varchar(20) NOT NULL,
+  `DESCRIPCION` varchar(100) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_BITACORA`),
+  KEY `TBL_MS_BITACORA_IBFK_1` (`ID_USUARIO`),
+  KEY `TBL_MS_BITACORA_IBFK_2` (`ID_OBJETO`),
+  CONSTRAINT `TBL_MS_BITACORA_IBFK_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`),
+  CONSTRAINT `TBL_MS_BITACORA_IBFK_2` FOREIGN KEY (`ID_OBJETO`) REFERENCES `tbl_ms_objetos` (`ID_OBJETO`)
+) ENGINE=InnoDB AUTO_INCREMENT=951 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_bitacora_backup
+DROP TABLE IF EXISTS `tbl_ms_bitacora_backup`;
+CREATE TABLE `tbl_ms_bitacora_backup` (
+  `ID_BACKUP` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_BITACORA` int(11) NOT NULL,
+  `FECHA` datetime NOT NULL,
+  `ID_USUARIO` int(11) NOT NULL,
+  `ID_OBJETO` int(11) DEFAULT NULL,
+  `ACCION` varchar(20) NOT NULL,
+  `DESCRIPCION` varchar(100) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT NULL,
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_BACKUP` datetime DEFAULT current_timestamp(),
+  `MOTIVO_BACKUP` varchar(50) DEFAULT 'ELIMINACION_MANUAL',
+  PRIMARY KEY (`ID_BACKUP`),
+  KEY `TBL_MS_BITACORA_BACKUP_IBFK_1` (`ID_BITACORA`),
+  KEY `TBL_MS_BITACORA_BACKUP_IBFK_2` (`ID_USUARIO`),
+  CONSTRAINT `TBL_MS_BITACORA_BACKUP_IBFK_1` FOREIGN KEY (`ID_BITACORA`) REFERENCES `tbl_ms_bitacora` (`ID_BITACORA`),
+  CONSTRAINT `TBL_MS_BITACORA_BACKUP_IBFK_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_historial_contrasena
+DROP TABLE IF EXISTS `tbl_ms_historial_contrasena`;
+CREATE TABLE `tbl_ms_historial_contrasena` (
+  `ID_HISTORIAL` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_USUARIO` int(11) NOT NULL,
+  `CONTRASENA` varchar(100) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_HISTORIAL`),
+  KEY `TBL_MS_HISTORIAL_CONTRASENA_IBFK_1` (`ID_USUARIO`),
+  CONSTRAINT `TBL_MS_HISTORIAL_CONTRASENA_IBFK_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`)
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_objetos
+DROP TABLE IF EXISTS `tbl_ms_objetos`;
+CREATE TABLE `tbl_ms_objetos` (
+  `ID_OBJETO` int(11) NOT NULL AUTO_INCREMENT,
+  `OBJETO` varchar(100) NOT NULL,
+  `TIPO_OBJETO` varchar(50) DEFAULT NULL,
+  `DESCRIPCION` varchar(255) DEFAULT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_OBJETO`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_parametros
+DROP TABLE IF EXISTS `tbl_ms_parametros`;
+CREATE TABLE `tbl_ms_parametros` (
+  `ID_PARAMETRO` int(11) NOT NULL AUTO_INCREMENT,
+  `PARAMETRO` varchar(50) NOT NULL,
+  `VALOR` varchar(100) NOT NULL,
+  `ID_USUARIO` int(11) DEFAULT NULL,
+  `DESCRIPCION` varchar(255) DEFAULT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_PARAMETRO`),
+  KEY `TBL_MS_PARAMETROS_IBFK_1` (`ID_USUARIO`),
+  CONSTRAINT `TBL_MS_PARAMETROS_IBFK_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_permisos
+DROP TABLE IF EXISTS `tbl_ms_permisos`;
+CREATE TABLE `tbl_ms_permisos` (
+  `ID_PERMISO` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_ROL` int(11) NOT NULL,
+  `ID_OBJETO` int(11) NOT NULL,
+  `PERMISO_CREACION` tinyint(1) DEFAULT 0,
+  `PERMISO_ELIMINACION` tinyint(1) DEFAULT 0,
+  `PERMISO_ACTUALIZACION` tinyint(1) DEFAULT 0,
+  `PERMISO_CONSULTAR` tinyint(1) DEFAULT 0,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_PERMISO`),
+  KEY `TBL_MS_PERMISOS_IBFK_1` (`ID_ROL`),
+  KEY `TBL_MS_PERMISOS_IBFK_2` (`ID_OBJETO`),
+  CONSTRAINT `TBL_MS_PERMISOS_IBFK_1` FOREIGN KEY (`ID_ROL`) REFERENCES `tbl_ms_roles` (`ID_ROL`),
+  CONSTRAINT `TBL_MS_PERMISOS_IBFK_2` FOREIGN KEY (`ID_OBJETO`) REFERENCES `tbl_ms_objetos` (`ID_OBJETO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_preguntas
+DROP TABLE IF EXISTS `tbl_ms_preguntas`;
+CREATE TABLE `tbl_ms_preguntas` (
+  `ID_PREGUNTA` int(11) NOT NULL AUTO_INCREMENT,
+  `PREGUNTA` varchar(255) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_PREGUNTA`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_respuestas
+DROP TABLE IF EXISTS `tbl_ms_respuestas`;
+CREATE TABLE `tbl_ms_respuestas` (
+  `ID_RESPUESTA` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_USUARIO` int(11) NOT NULL,
+  `ID_PREGUNTA` int(11) NOT NULL,
+  `RESPUESTA` varchar(255) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_RESPUESTA`),
+  KEY `TBL_MS_RESPUESTAS_IBFK_1` (`ID_USUARIO`),
+  KEY `TBL_MS_RESPUESTAS_IBFK_2` (`ID_PREGUNTA`),
+  CONSTRAINT `TBL_MS_RESPUESTAS_IBFK_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`),
+  CONSTRAINT `TBL_MS_RESPUESTAS_IBFK_2` FOREIGN KEY (`ID_PREGUNTA`) REFERENCES `tbl_ms_preguntas` (`ID_PREGUNTA`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_roles
+DROP TABLE IF EXISTS `tbl_ms_roles`;
+CREATE TABLE `tbl_ms_roles` (
+  `ID_ROL` int(11) NOT NULL AUTO_INCREMENT,
+  `ROL` varchar(30) NOT NULL,
+  `DESCRIPCION` varchar(100) DEFAULT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_ROL`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_ms_usuarios
+DROP TABLE IF EXISTS `tbl_ms_usuarios`;
+CREATE TABLE `tbl_ms_usuarios` (
+  `ID_USUARIO` int(11) NOT NULL AUTO_INCREMENT,
+  `NUMERO_IDENTIDAD` varchar(20) DEFAULT NULL,
+  `USUARIO` varchar(15) NOT NULL,
+  `NOMBRE_USUARIO` varchar(100) NOT NULL,
+  `ESTADO_USUARIO` varchar(100) DEFAULT 'Activo',
+  `CONTRASENA` varchar(100) NOT NULL,
+  `ID_ROL` int(11) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_ULTIMA_CONEXION` datetime DEFAULT NULL,
+  `PRIMER_INGRESO` int(11) DEFAULT 0,
+  `FECHA_VENCIMIENTO` date DEFAULT NULL,
+  `CORREO_ELECTRONICO` varchar(50) DEFAULT NULL,
+  `RESETEO_CONTRASENA` tinyint(1) DEFAULT 0,
+  `INTENTOS_INVALIDOS` int(11) DEFAULT 0,
+  `HABILITAR_2FA` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`ID_USUARIO`),
+  UNIQUE KEY `USUARIO` (`USUARIO`),
+  KEY `TBL_MS_USUARIOS_IBFK_1` (`ID_ROL`),
+  CONSTRAINT `TBL_MS_USUARIOS_IBFK_1` FOREIGN KEY (`ID_ROL`) REFERENCES `tbl_ms_roles` (`ID_ROL`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_produccion
+DROP TABLE IF EXISTS `tbl_produccion`;
+CREATE TABLE `tbl_produccion` (
+  `ID_PRODUCCION` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_USUARIO` int(11) NOT NULL,
+  `ID_ESTADO_PRODUCCION` int(11) NOT NULL,
+  `FECHA_INICIO` datetime DEFAULT current_timestamp(),
+  `FECHA_FIN` datetime DEFAULT NULL,
+  `OBSERVACION` varchar(255) DEFAULT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCCION`),
+  KEY `ID_USUARIO` (`ID_USUARIO`),
+  KEY `ID_ESTADO_PRODUCCION` (`ID_ESTADO_PRODUCCION`),
+  CONSTRAINT `tbl_produccion_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `tbl_ms_usuarios` (`ID_USUARIO`),
+  CONSTRAINT `tbl_produccion_ibfk_2` FOREIGN KEY (`ID_ESTADO_PRODUCCION`) REFERENCES `tbl_estado_produccion` (`ID_ESTADO_PRODUCCION`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_producto
+DROP TABLE IF EXISTS `tbl_producto`;
+CREATE TABLE `tbl_producto` (
+  `ID_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(100) NOT NULL,
+  `DESCRIPCION` varchar(255) DEFAULT NULL,
+  `PRECIO` decimal(10,2) NOT NULL,
+  `ID_UNIDAD_MEDIDA` int(11) NOT NULL,
+  `ESTADO` varchar(20) DEFAULT 'ACTIVO',
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  KEY `ID_UNIDAD_MEDIDA` (`ID_UNIDAD_MEDIDA`),
+  CONSTRAINT `tbl_producto_ibfk_1` FOREIGN KEY (`ID_UNIDAD_MEDIDA`) REFERENCES `tbl_unidad_medida` (`ID_UNIDAD_MEDIDA`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_proveedor
+DROP TABLE IF EXISTS `tbl_proveedor`;
+CREATE TABLE `tbl_proveedor` (
+  `ID_PROVEEDOR` int(11) NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(100) NOT NULL,
+  `CONTACTO` varchar(100) DEFAULT NULL,
+  `TELEFONO` varchar(20) DEFAULT NULL,
+  `CORREO` varchar(50) DEFAULT NULL,
+  `DIRECCION` varchar(255) DEFAULT NULL,
+  `ESTADO` varchar(20) DEFAULT 'ACTIVO',
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_PROVEEDOR`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_receta
+DROP TABLE IF EXISTS `tbl_receta`;
+CREATE TABLE `tbl_receta` (
+  `ID_RECETA` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_PRODUCTO` int(11) NOT NULL,
+  `ID_MATERIA_PRIMA` int(11) NOT NULL,
+  `CANTIDAD_NECESARIA` decimal(10,2) NOT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_RECETA`),
+  KEY `ID_PRODUCTO` (`ID_PRODUCTO`),
+  KEY `ID_MATERIA_PRIMA` (`ID_MATERIA_PRIMA`),
+  CONSTRAINT `tbl_receta_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `tbl_producto` (`ID_PRODUCTO`),
+  CONSTRAINT `tbl_receta_ibfk_2` FOREIGN KEY (`ID_MATERIA_PRIMA`) REFERENCES `tbl_materia_prima` (`ID_MATERIA_PRIMA`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla: tbl_unidad_medida
+DROP TABLE IF EXISTS `tbl_unidad_medida`;
+CREATE TABLE `tbl_unidad_medida` (
+  `ID_UNIDAD_MEDIDA` int(11) NOT NULL AUTO_INCREMENT,
+  `UNIDAD` varchar(20) NOT NULL,
+  `DESCRIPCION` varchar(50) DEFAULT NULL,
+  `FECHA_CREACION` datetime DEFAULT current_timestamp(),
+  `CREADO_POR` varchar(50) DEFAULT NULL,
+  `FECHA_MODIFICACION` datetime DEFAULT NULL,
+  `MODIFICADO_POR` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID_UNIDAD_MEDIDA`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+

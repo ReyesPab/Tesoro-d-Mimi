@@ -1,0 +1,192 @@
+/* =======================================================
+   🌟 Layout Moderno - Tesoro D’ MIMI
+   ======================================================= */
+
+/* ====== Ajustes generales ====== */
+body {
+  background-color: #F8EDE3;
+  color: #2B2B2B;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  padding-top: 70px;
+  overflow-x: hidden;
+}
+
+/* ====== Contenedor principal ====== */
+#main {
+background-color: #FAEBD7; /* beige suave */
+  min-height: 100vh;
+  margin-left: 240px; /* ancho del sidebar */
+  margin-top: 70px;   /* altura del header */
+  padding: 20px;
+  transition: margin 0.3s ease;
+}
+
+.section.dashboard {
+  background-color: transparent; /* evita fondos blancos */
+}
+
+/* ====== Sidebar general ====== */
+.sidebar {
+  width: 240px;
+  position: fixed;
+  top: 70px; /* debajo del header */
+  left: 0;
+  height: calc(100% - 70px);
+  background-color:#4B2E05;
+  color:#F8EDE3;
+  transition: width 0.3s ease, transform 0.3s ease;
+  overflow-y: auto;
+  z-index: 998;
+  box-shadow: 3px 0 15px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+#sidebar a {
+  color: #F8EDE3;
+  text-decoration: none;
+}
+
+#sidebar a:hover,
+#sidebar .active {
+  background-color: #D7A86E; /* naranja suave */
+  color: #4B2E05; /* texto oscuro */
+}
+
+/* ====== Estado colapsado (escritorio) ====== */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+/* Ocultar textos, flechas y submenús al colapsar */
+.sidebar.collapsed .nav-link span,
+.sidebar.collapsed .nav-link .bi-chevron-down,
+.sidebar.collapsed .nav-submenu {
+  display: none !important;
+}
+
+/* Centrar íconos al colapsar */
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  text-align: center;
+  padding: 14px 0;
+}
+.sidebar.collapsed .nav-link i {
+  margin: 0 auto;
+  display: block;
+  font-size: 1.3rem;
+}
+
+/* ====== Ajustar contenido principal cuando se colapsa ====== */
+.sidebar.collapsed ~ #main,
+body.sidebar-collapsed #main {
+  margin-left: 70px !important;
+  transition: margin 0.3s ease;
+}
+
+/* ====== Estilo del contenido del sidebar ====== */
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  transition: background 0.3s, color 0.3s;
+}
+.sidebar .nav-link:hover {
+  background: rgba(0, 123, 255, 0.25);
+  color: #fff;
+}
+.sidebar .nav-link i {
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+.sidebar .nav-link:hover i {
+  transform: scale(1.15);
+  color: #0d6efd;
+}
+
+/* ====== Submenús ====== */
+.sidebar .nav-submenu {
+  list-style: none;
+  padding-left: 30px;
+  margin: 0;
+}
+.sidebar .nav-submenu a {
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+.sidebar .nav-submenu a:hover {
+  background: rgba(0, 123, 255, 0.15);
+  color: white;
+}
+.sidebar .nav-submenu i {
+  font-size: 0.7rem;
+}
+
+/* ====== Scrollbar fino ====== */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+/* =======================================================
+   🖥️ Modo escritorio
+   ======================================================= */
+@media (min-width: 992px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+  #main {
+    margin-left: 240px;
+  }
+}
+
+/* =======================================================
+   📱 Modo móvil (drawer deslizable)
+   ======================================================= */
+@media (max-width: 992px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 240px;
+    height: 100vh;
+    top: 70px;
+  }
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  /* El contenido no se mueve en móvil */
+  #main {
+    margin-left: 0 !important;
+    padding: 15px;
+  }
+}
+
+/* =======================================================
+   🌈 Animaciones suaves
+   ======================================================= */
+.sidebar,
+#main {
+  transition: all 0.3s ease;
+}
+
+/* =======================================================
+   ✨ Estado general
+   ======================================================= */
+body.sidebar-collapsed #main {
+  margin-left: 70px;
+}
+
